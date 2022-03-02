@@ -3,8 +3,8 @@ RSpec.describe do
   5.times do |n|
     let!(:"task#{n+1}") { FactoryBot.create(:"task#{n+1}") }
   end
-  describe '1. タスク一覧画面にすべてのタスクが表示されること' do
-    it 'すべてのタスクが表示されること' do
+  describe '1. All tasks should be displayed in the task list screen.' do
+    it 'All tasks should be displayed.' do
       visit tasks_path
       expect(page).to have_content 'task title 1'
       expect(page).to have_content 'task title 12'
@@ -13,8 +13,8 @@ RSpec.describe do
       expect(page).to have_content 'task title 5'
     end
   end
-  describe '2. 1つのフォームでtitleとdescriptionのどちらでもあいまい検索ができること' do
-    it 'titleによるあいまい検索が正常に機能すること' do
+  describe '2. Ability to do a fuzzy search for both title and description in one form.' do
+    it 'Fuzzy search by title should function properly.' do
       visit tasks_path
       find('input[type="search"]').set('title 1')
       find('input[type="submit"]').click
@@ -24,7 +24,7 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 4'
       expect(page).not_to have_content 'task title 5'
     end
-    it 'descriptionによるあいまい検索が正常に機能すること' do
+    it 'Fuzzy search by description should function properly.' do
       visit tasks_path
       find('input[type="search"]').set('description 3')
       find('input[type="submit"]').click
@@ -35,15 +35,15 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 5'
     end
   end
-  describe '3. 期間による検索は、指定した年月日以上・以下で検索すること' do
-    it '`_gteq`と`_lteq`が使用されていること' do
+  describe '3. Searches by time period must be above or below the specified date.' do
+    it '`_gteq` and `_lteq` must be used' do
       visit tasks_path
       expect(page).to have_selector '#q_deadline_gteq'
       expect(page).to have_selector '#q_deadline_lteq'
     end
   end
-  describe '4. 期間による検索ができること' do
-    it '年月日の範囲を指定した検索が正常に機能すること' do
+  describe '4. Ability to search by time period.' do
+    it 'Searching for a range of years, months, and dates should function properly.' do
       visit tasks_path
       fill_in "q_deadline_gteq", with: Date.parse("2023-01-01")
       fill_in "q_deadline_lteq", with: Date.parse("2024-01-01")
@@ -55,8 +55,8 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 5'
     end
   end
-  describe '5. 期間による検索は、開始と終了のどちらか一方だけでも検索できること' do
-    it '開始期間のみによる検索が正常に機能すること' do
+  describe '5. Searching by time period should be possible for either start or end alone.' do
+    it 'Searching by start period only should work properly.' do
       visit tasks_path
       fill_in "q_deadline_gteq", with: Date.parse("2023-01-01")
       find('input[type="submit"]').click
@@ -66,7 +66,7 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 1'
       expect(page).not_to have_content 'task title 12'
     end
-    it '終了期間のみによる検索が正常に機能すること' do
+    it 'Searching by end period only should function properly.' do
       visit tasks_path
       fill_in "q_deadline_lteq", with: Date.parse("2023-01-01")
       find('input[type="submit"]').click
@@ -77,14 +77,14 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 4'
     end
   end
-  describe '6. ステータスによる検索機能がラジオボタンで実装されていること' do
-    it 'ラジオボタンが存在すること' do
+  describe '6. Search function by status should be implemented with radio buttons.' do
+    it 'The radio button must be present.' do
       visit tasks_path
       expect(page).to have_selector 'input[type="radio"]'
     end
   end
-  describe '7. ステータスによる検索が正常に機能すること' do
-    it 'ステータスを「指定なし」で検索した場合、すべてのタスクが表示されること' do
+  describe '7. Search by status should function properly.' do
+    it 'All tasks should be displayed when searching with the status "unspecified".' do
       visit tasks_path
       choose 'q_status_eq_'
       find('input[type="submit"]').click
@@ -94,7 +94,7 @@ RSpec.describe do
       expect(page).to have_content 'task title 4'
       expect(page).to have_content 'task title 5'
     end
-    it 'ステータスを「todo」で検索した場合、ステータスが「todo」のタスクのみ表示されること' do
+    it 'When searching for tasks with the status "todo", only tasks with the status "todo" should be displayed.' do
       visit tasks_path
       choose 'q_status_eq_0'
       find('input[type="submit"]').click
@@ -104,7 +104,7 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 3'
       expect(page).not_to have_content 'task title 5'
     end
-    it 'ステータスを「doing」で検索した場合、ステータスが「doing」のタスクのみ表示されること' do
+    it 'When searching for tasks with a status of "doing", only tasks with a status of "doing" will be displayed.' do
       visit tasks_path
       choose 'q_status_eq_1'
       find('input[type="submit"]').click
@@ -114,7 +114,7 @@ RSpec.describe do
       expect(page).not_to have_content 'task description 3'
       expect(page).not_to have_content 'task description 34'
     end
-    it 'ステータスを「done」で検索した場合、ステータスが「done」のタスクのみ表示されること' do
+    it 'When searching for tasks with a status of "done," only tasks with a status of "done" will be displayed.' do
       visit tasks_path
       choose 'q_status_eq_2'
       find('input[type="submit"]').click
@@ -125,14 +125,14 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 5'
     end
   end
-  describe '8. ステータスは、デフォルトで「指定なし」が選択されていること' do
-    it 'ラジオボタンはデフォルトで「指定なし」にチェックされていること' do
+  describe '8. Status must be selected as "unspecified" by default.' do
+    it 'Radio buttons must be checked "unspecified" by default.' do
       visit tasks_path
       expect(find("#q_status_eq_")).to be_checked
     end
   end
-  describe '9. 複数条件による検索が正常に機能すること' do
-    it 'キーワードと検索期間による検索が正常に機能すること' do
+  describe '9. Searching by multiple criteria should function properly.' do
+    it 'Search by keyword and search period should function properly' do
       visit tasks_path
       find('input[type="search"]').set('task title 1')
       fill_in "q_deadline_gteq", with: Date.parse("2020-01-01")
@@ -144,7 +144,7 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 4'
       expect(page).not_to have_content 'task title 5'
     end
-    it 'キーワードと開始期間とステータスによる検索が正常に機能すること' do
+    it 'Search by keyword, start period, and status should function properly.' do
       visit tasks_path
       find('input[type="search"]').set('task description 3')
       fill_in "q_deadline_gteq", with: Date.parse("2023-12-31")
@@ -157,8 +157,8 @@ RSpec.describe do
       expect(page).not_to have_content 'task title 5'
     end
   end
-  describe '10. 期間に対し、ソート機能が実装されていること' do
-    it 'ソートリンクをクリックすると降順に、もう一度クリックすると昇順にタスクが表示される' do
+  describe '10. A sorting function by time period should be implemented.' do
+    it 'Click the sort link to display tasks in descending order, click again to display tasks in ascending order' do
       visit tasks_path
       find('.sort_link').click
       sleep 0.5
@@ -178,8 +178,8 @@ RSpec.describe do
       expect(task_list[5]).to have_content 'task title 1'
     end
   end
-  describe '11. 検索機能で絞り込んだタスクをソートできること' do
-    it '開始期間とステータスによる検索後のソートが正常に機能する' do
+  describe '11. Search function allows sorting of tasks that have been narrowed down' do
+    it 'Sorting on tasks searched by start period and status works properly' do
       visit tasks_path
       fill_in "q_deadline_gteq", with: Date.parse("2021-01-01")
       choose 'q_status_eq_1'
