@@ -6,33 +6,33 @@ RSpec.describe do
   describe '1. タスク一覧画面にすべてのタスクが表示されること' do
     it 'すべてのタスクが表示されること' do
       visit tasks_path
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).to have_content 'タスクのタイトル12'
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 1'
+      expect(page).to have_content 'task title 12'
+      expect(page).to have_content 'task title 3'
+      expect(page).to have_content 'task title 4'
+      expect(page).to have_content 'task title 5'
     end
   end
   describe '2. 1つのフォームでtitleとdescriptionのどちらでもあいまい検索ができること' do
     it 'titleによるあいまい検索が正常に機能すること' do
       visit tasks_path
-      find('input[type="search"]').set('タイトル1')
+      find('input[type="search"]').set('title 1')
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 1'
+      expect(page).to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 5'
     end
     it 'descriptionによるあいまい検索が正常に機能すること' do
       visit tasks_path
-      find('input[type="search"]').set('内容3')
+      find('input[type="search"]').set('description 3')
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 3'
+      expect(page).to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 5'
     end
   end
   describe '3. 期間による検索は、指定した年月日以上・以下で検索すること' do
@@ -48,11 +48,11 @@ RSpec.describe do
       fill_in "q_deadline_gteq", with: Date.parse("2023-01-01")
       fill_in "q_deadline_lteq", with: Date.parse("2024-01-01")
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 3'
+      expect(page).to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 5'
     end
   end
   describe '5. 期間による検索は、開始と終了のどちらか一方だけでも検索できること' do
@@ -60,21 +60,21 @@ RSpec.describe do
       visit tasks_path
       fill_in "q_deadline_gteq", with: Date.parse("2023-01-01")
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).to have_content 'タスクのタイトル5'
-      expect(page).not_to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
+      expect(page).to have_content 'task title 3'
+      expect(page).to have_content 'task title 4'
+      expect(page).to have_content 'task title 5'
+      expect(page).not_to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
     end
     it '終了期間のみによる検索が正常に機能すること' do
       visit tasks_path
       fill_in "q_deadline_lteq", with: Date.parse("2023-01-01")
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).to have_content 'タスクのタイトル12'
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル5'
-      expect(page).not_to have_content 'タスクのタイトル4'
+      expect(page).to have_content 'task title 1'
+      expect(page).to have_content 'task title 12'
+      expect(page).to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 5'
+      expect(page).not_to have_content 'task title 4'
     end
   end
   describe '6. ステータスによる検索機能がラジオボタンで実装されていること' do
@@ -88,41 +88,41 @@ RSpec.describe do
       visit tasks_path
       choose 'q_status_eq_'
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).to have_content 'タスクのタイトル12'
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 1'
+      expect(page).to have_content 'task title 12'
+      expect(page).to have_content 'task title 3'
+      expect(page).to have_content 'task title 4'
+      expect(page).to have_content 'task title 5'
     end
     it 'ステータスを「todo」で検索した場合、ステータスが「todo」のタスクのみ表示されること' do
       visit tasks_path
       choose 'q_status_eq_0'
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 1'
+      expect(page).to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 5'
     end
     it 'ステータスを「doing」で検索した場合、ステータスが「doing」のタスクのみ表示されること' do
       visit tasks_path
       choose 'q_status_eq_1'
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクの内容2'
-      expect(page).to have_content 'タスクの内容5'
-      expect(page).not_to have_content 'タスクの内容1'
-      expect(page).not_to have_content 'タスクの内容3'
-      expect(page).not_to have_content 'タスクの内容34'
+      expect(page).to have_content 'task description 2'
+      expect(page).to have_content 'task description 5'
+      expect(page).not_to have_content 'task description 1'
+      expect(page).not_to have_content 'task description 3'
+      expect(page).not_to have_content 'task description 34'
     end
     it 'ステータスを「done」で検索した場合、ステータスが「done」のタスクのみ表示されること' do
       visit tasks_path
       choose 'q_status_eq_2'
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 5'
     end
   end
   describe '8. ステータスは、デフォルトで「指定なし」が選択されていること' do
@@ -134,27 +134,27 @@ RSpec.describe do
   describe '9. 複数条件による検索が正常に機能すること' do
     it 'キーワードと検索期間による検索が正常に機能すること' do
       visit tasks_path
-      find('input[type="search"]').set('タスクのタイトル1')
+      find('input[type="search"]').set('task title 1')
       fill_in "q_deadline_gteq", with: Date.parse("2020-01-01")
       fill_in "q_deadline_lteq", with: Date.parse("2020-12-31")
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 5'
     end
     it 'キーワードと開始期間とステータスによる検索が正常に機能すること' do
       visit tasks_path
-      find('input[type="search"]').set('タスクの内容3')
+      find('input[type="search"]').set('task description 3')
       fill_in "q_deadline_gteq", with: Date.parse("2023-12-31")
       choose 'q_status_eq_0'
       find('input[type="submit"]').click
-      expect(page).to have_content 'タスクのタイトル4'
-      expect(page).not_to have_content 'タスクのタイトル1'
-      expect(page).not_to have_content 'タスクのタイトル12'
-      expect(page).not_to have_content 'タスクのタイトル3'
-      expect(page).not_to have_content 'タスクのタイトル5'
+      expect(page).to have_content 'task title 4'
+      expect(page).not_to have_content 'task title 1'
+      expect(page).not_to have_content 'task title 12'
+      expect(page).not_to have_content 'task title 3'
+      expect(page).not_to have_content 'task title 5'
     end
   end
   describe '10. 期間に対し、ソート機能が実装されていること' do
@@ -163,19 +163,19 @@ RSpec.describe do
       find('.sort_link').click
       sleep 0.5
       task_list = all('tr')
-      expect(task_list[1]).to have_content 'タスクのタイトル1'
-      expect(task_list[2]).to have_content 'タスクのタイトル12'
-      expect(task_list[3]).to have_content 'タスクのタイトル3'
-      expect(task_list[4]).to have_content 'タスクのタイトル4'
-      expect(task_list[5]).to have_content 'タスクのタイトル5'
+      expect(task_list[1]).to have_content 'task title 1'
+      expect(task_list[2]).to have_content 'task title 12'
+      expect(task_list[3]).to have_content 'task title 3'
+      expect(task_list[4]).to have_content 'task title 4'
+      expect(task_list[5]).to have_content 'task title 5'
       find('.sort_link').click
       sleep 0.5
       task_list = all('tr')
-      expect(task_list[1]).to have_content 'タスクのタイトル5'
-      expect(task_list[2]).to have_content 'タスクのタイトル4'
-      expect(task_list[3]).to have_content 'タスクのタイトル3'
-      expect(task_list[4]).to have_content 'タスクのタイトル12'
-      expect(task_list[5]).to have_content 'タスクのタイトル1'
+      expect(task_list[1]).to have_content 'task title 5'
+      expect(task_list[2]).to have_content 'task title 4'
+      expect(task_list[3]).to have_content 'task title 3'
+      expect(task_list[4]).to have_content 'task title 12'
+      expect(task_list[5]).to have_content 'task title 1'
     end
   end
   describe '11. 検索機能で絞り込んだタスクをソートできること' do
@@ -187,13 +187,13 @@ RSpec.describe do
       find('.sort_link').click
       sleep 0.5
       task_list = all('tr')
-      expect(task_list[1]).to have_content 'タスクのタイトル12'
-      expect(task_list[2]).to have_content 'タスクのタイトル5'
+      expect(task_list[1]).to have_content 'task title 12'
+      expect(task_list[2]).to have_content 'task title 5'
       find('.sort_link').click
       sleep 0.5
       task_list = all('tr')
-      expect(task_list[1]).to have_content 'タスクのタイトル5'
-      expect(task_list[2]).to have_content 'タスクのタイトル12'
+      expect(task_list[1]).to have_content 'task title 5'
+      expect(task_list[2]).to have_content 'task title 12'
     end
   end
 end
