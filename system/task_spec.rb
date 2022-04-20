@@ -1,5 +1,6 @@
 require 'rails_helper'
 RSpec.describe do
+  Task.destroy_all
   5.times do |n|
     let!(:"task#{n+1}") { FactoryBot.create(:"task#{n+1}") }
   end
