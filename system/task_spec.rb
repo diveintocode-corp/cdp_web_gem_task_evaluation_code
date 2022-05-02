@@ -164,19 +164,19 @@ RSpec.describe do
       find('.sort_link').click
       sleep 0.5
       task_list = all('tr')
-      expect(task_list[1]).to have_content 'task title 1'
-      expect(task_list[2]).to have_content 'task title 12'
-      expect(task_list[3]).to have_content 'task title 3'
-      expect(task_list[4]).to have_content 'task title 4'
-      expect(task_list[5]).to have_content 'task title 5'
-      find('.sort_link').click
-      sleep 0.5
-      task_list = all('tr')
       expect(task_list[1]).to have_content 'task title 5'
       expect(task_list[2]).to have_content 'task title 4'
       expect(task_list[3]).to have_content 'task title 3'
       expect(task_list[4]).to have_content 'task title 12'
       expect(task_list[5]).to have_content 'task title 1'
+      find('.sort_link').click
+      sleep 0.5
+      task_list = all('tr')
+      expect(task_list[1]).to have_content 'task title 1'
+      expect(task_list[2]).to have_content 'task title 12'
+      expect(task_list[3]).to have_content 'task title 3'
+      expect(task_list[4]).to have_content 'task title 4'
+      expect(task_list[5]).to have_content 'task title 5'
     end
   end
   describe '11. 検索機能で絞り込んだタスクをソートできること' do
